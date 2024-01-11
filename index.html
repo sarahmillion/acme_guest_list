@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>Acme Guest List</title>
+<link rel="stylesheet" href="style.css"/>
+  </head>
+<body>
+  <div id="root"></div>
+</body>
+<!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom/client": "https://esm.sh/react-dom/client?dev"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+
+const CreateGuest = ({ createGuest })=>{
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  
+  const submit= (ev)=>{
+    ev.preventDefault();
+    const guest = {
+      name,
+      email,
+      phone
+    };
+    createGuest(guest);
+  };
+  return(
+    <form onSubmit={ submit }>
+      <input 
+        value={ name }
+        onChange={(ev)=> setName(ev.target.value)}
+        placeholder='name'
+      />
+      <input 
+      placeholder='email'
+      value={ email }
+      onChange={(ev)=> setEmail(ev.target.value)}
+      />
+      <input 
+        placeholder='phone'
+        value={ phone }
+        onChange={(ev)=> setPhone(ev.target.value)}
+      />
+      <button>Create</button>
+    </form>
+  );
+}
+
+const Guests = ({ guests })=>{
+  return(
+  <ul>
+    {
+      guests.map((guest)=>{
+        return(
+          <li key={ guest.id }>
+            { guest.name }
+          </li>
+
+        );
+      })
+    }
+  </ul>
+  );
+};
+
+
+function App() {
+  const [guests, setGuests] = React.useState([]);
+  React.useEffect (()=> {
+    const fetchData = async ()=> {
+      const response = await fetch('https://fsa-crud-2aa9294fe819.herokuapp.com/api/2309_ftb_et_web_am/guests');
+      const json = await response.json();
+      setGuests(json.data);
+    };
+    fetchData();
+  }, []);
+
+  const createGuest = (guest)=> {
+
+  }
+  
+  return (
+    <div>
+      <h1>Acme Guest List ({ guests.length })</h1>
+      <CreateGuest createGuest={createGuest}/>
+      <Guests guests={ guests }/>
+      </div>
+  );
+}
+
+const root = createRoot(document.getElementById('root'));
+root.render(
+  <App />
+);
+</script>
+</html>

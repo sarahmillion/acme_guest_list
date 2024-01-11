@@ -1,0 +1,17 @@
+body{
+    font-family: sans-serif;
+}
+
+form{
+    display:flex;
+    flex-direction: column;
+    border: solid 1px black;
+}
+
+form > *{
+    margin: 0.5rem;
+}
+
+input, button{
+    height: 2rem;
+}

@@ -1,11 +1,16 @@
 body{
-    font-family: sans-serif;
+    font-family: verdana;
+}
+
+h1{
+    color: rgb(48, 48, 150);
 }
 
 form{
+    background-color:lightgrey;
     display:flex;
     flex-direction: column;
-    border: solid 2px black;
+    border: solid 2px rgb(48, 48, 150);
 }
 
 form > *{

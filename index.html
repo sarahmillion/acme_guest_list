@@ -27,7 +27,7 @@ import { createRoot } from 'react-dom/client';
 const CreateGuest = ({ createGuest })=>{
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
-  const [phone, setPhone] = React.useState('123-456-7890');
+  const [phone, setPhone] = React.useState('');
   
   const submit= (ev)=>{
     ev.preventDefault();
@@ -60,7 +60,7 @@ const CreateGuest = ({ createGuest })=>{
   );
 }
 
-const Guests = ({ guests, deleteGuest })=>{
+const Guests = ({ guests, destroyGuest })=>{
   return(
   <ul>
     {
@@ -69,11 +69,10 @@ const Guests = ({ guests, deleteGuest })=>{
           <li key={ guest.id }>
             { guest.name }
             <button 
-            onClick={()=> deleteGuest(guest)}>
+            onClick={()=> destroyGuest(guest)}>
               delete
             </button>
           </li>
-
         );
       })
     }
@@ -106,8 +105,8 @@ function App() {
     setGuests([... guests, json.data])
 };
 
-const deleteGuest = async (guest)=> {
-    const response = await fetch(`https://fsa-crud-2aa9294fe819.herokuapp.com/api/2309_ftb_et_web_am/guests${guest.id}`,{
+const destroyGuest = async (guest)=> {
+    const response = await fetch(`https://fsa-crud-2aa9294fe819.herokuapp.com/api/2309_ftb_et_web_am/guests${guest.id}`, {
       method: 'DELETE'
     });
     setGuests(guests.filter((_guest)=>{
@@ -120,7 +119,7 @@ const deleteGuest = async (guest)=> {
     <div>
       <h1>Acme Guest List ({ guests.length })</h1>
       <CreateGuest createGuest={createGuest}/>
-      <Guests guests={ guests } deleteGuest={ deleteGuest }/>
+      <Guests guests={ guests } destroyGuest={ destroyGuest }/>
       </div>
   );
 }
